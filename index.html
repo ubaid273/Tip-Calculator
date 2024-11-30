@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Tip Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #825CFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.tip-card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  animation: slideIn 0.5s ease-out;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.card-header h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+  color: #555;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  background-color: #f5f5f5;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.calculate-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.calculate-btn:hover {
+  background-color: #43a047;
+}
+
+.reset-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.reset-btn:hover {
+  background-color: #e53935;
+}
+
+.results {
+  margin-top: 20px;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.result-item span {
+  color: #333;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tip-card">
+      <div class="card-header">
+        <h1>Tip Calculator</h1>
+      </div>
+
+      <div class="input-group">
+        <label for="billAmount">Bill Amount ($)</label>
+        <input type="number" id="billAmount" placeholder="Enter bill amount">
+      </div>
+
+      <div class="input-group">
+        <label for="tipPercent">Tip Percentage (%)</label>
+        <input type="number" id="tipPercent" placeholder="Enter tip % (e.g., 10)">
+      </div>
+
+      <div class="input-group">
+        <label for="people">Number of People</label>
+        <input type="number" id="people" placeholder="Enter number of people">
+      </div>
+
+      <div class="button-group">
+        <button class="btn calculate-btn" onclick="calculateTip()">Calculate</button>
+        <button class="btn reset-btn" onclick="resetCalculator()">Reset</button>
+      </div>
+
+      <div class="results">
+        <div class="result-item">
+          <span>Tip per Person:</span>
+          <span id="tipAmount">$0.00</span>
+        </div>
+        <div class="result-item">
+          <span>Total per Person:</span>
+          <span id="totalAmount">$0.00</span>
+        </div>
+        <div class="result-item">
+          <span>Total Bill:</span>
+          <span id="totalBill">$0.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+function calculateTip() {
+  const billAmount = parseFloat(document.getElementById('billAmount').value);
+  const tipPercent = parseFloat(document.getElementById('tipPercent').value);
+  const people = parseInt(document.getElementById('people').value);
+
+  if (isNaN(billAmount) || isNaN(tipPercent) || isNaN(people) || people <= 0) {
+    alert('Please enter valid inputs.');
+    return;
+  }
+
+  const totalTip = (billAmount * tipPercent) / 100;
+  const totalAmount = billAmount + totalTip;
+  const tipPerPerson = totalTip / people;
+  const totalPerPerson = totalAmount / people;
+
+  document.getElementById('tipAmount').textContent = `$${tipPerPerson.toFixed(2)}`;
+  document.getElementById('totalAmount').textContent = `$${totalPerPerson.toFixed(2)}`;
+  document.getElementById('totalBill').textContent = `$${totalAmount.toFixed(2)}`;
+}
+
+function resetCalculator() {
+  document.getElementById('billAmount').value = '';
+  document.getElementById('tipPercent').value = '';
+  document.getElementById('people').value = '';
+  document.getElementById('tipAmount').textContent = '$0.00';
+  document.getElementById('totalAmount').textContent = '$0.00';
+  document.getElementById('totalBill').textContent = '$0.00';
+}
+
+  </script>
+</body>
+</html>
